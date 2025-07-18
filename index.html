@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Expense Tracker</title>
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' https:;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.tailwindcss.com https://apis.google.com https://accounts.google.com https://www.gstatic.com https://ssl.gstatic.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com;
+        font-src 'self' https://fonts.gstatic.com;
+        img-src 'self' data: https: blob:;
+        connect-src 'self' https://sheets.googleapis.com https://www.googleapis.com https://accounts.google.com;
+        frame-src 'self' https://accounts.google.com;
+    ">
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://apis.google.com/js/api.js"></script>
-    <script src="https://accounts.google.com/gsi/client"></script>
     <style>
         .lucide { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; }
         .loading { animation: spin 1s linear infinite; }
@@ -18,6 +25,51 @@
 </head>
 <body>
     <div id="root"></div>
+    
+    <!-- Load Google APIs asynchronously -->
+    <script>
+        // Load Google API Script
+        function loadGoogleAPIs() {
+            return new Promise((resolve, reject) => {
+                // Load GAPI
+                const gapiScript = document.createElement('script');
+                gapiScript.src = 'https://apis.google.com/js/api.js';
+                gapiScript.onload = () => {
+                    // Load GSI (Google Sign-In)
+                    const gsiScript = document.createElement('script');
+                    gsiScript.src = 'https://accounts.google.com/gsi/client';
+                    gsiScript.onload = resolve;
+                    gsiScript.onerror = reject;
+                    document.head.appendChild(gsiScript);
+                };
+                gapiScript.onerror = reject;
+                document.head.appendChild(gapiScript);
+            });
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', async () => {
+            try {
+                await loadGoogleAPIs();
+                // APIs are loaded, React component can now initialize
+                window.googleAPIsLoaded = true;
+                if (window.initializeApp) {
+                    window.initializeApp();
+                }
+            } catch (error) {
+                console.error('Failed to load Google APIs:', error);
+                // Show fallback message
+                document.getElementById('root').innerHTML = `
+                    <div style="padding: 20px; text-align: center; color: red;">
+                        <h2>Failed to load Google APIs</h2>
+                        <p>Please refresh the page and try again.</p>
+                        <button onclick="location.reload()" style="padding: 10px 20px; margin-top: 10px;">Refresh Page</button>
+                    </div>
+                `;
+            }
+        });
+    </script>
+
     <script type="text/babel">
         // ============ CONFIGURATION ============
         // REPLACE THESE WITH YOUR ACTUAL VALUES
@@ -103,6 +155,22 @@
                             return;
                         }
 
+                        // Wait for Google APIs to load
+                        const waitForGoogleAPIs = () => {
+                            return new Promise((resolve) => {
+                                const checkAPIs = () => {
+                                    if (window.gapi && window.google) {
+                                        resolve();
+                                    } else {
+                                        setTimeout(checkAPIs, 100);
+                                    }
+                                };
+                                checkAPIs();
+                            });
+                        };
+
+                        await waitForGoogleAPIs();
+
                         // Initialize Google API
                         await new Promise((resolve) => {
                             gapi.load('client:auth2', resolve);
@@ -128,7 +196,13 @@
                     }
                 };
 
-                initializeGoogleApis();
+                // Set up the initialize function for when APIs are loaded
+                window.initializeApp = initializeGoogleApis;
+                
+                // If APIs are already loaded, initialize immediately
+                if (window.googleAPIsLoaded) {
+                    initializeGoogleApis();
+                }
             }, []);
 
             // Handle authentication success
