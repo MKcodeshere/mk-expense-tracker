@@ -388,8 +388,8 @@
             const [accessCode, setAccessCode] = useState('');
             const [expenses, setExpenses] = useState([]);
             const [syncStatus, setSyncStatus] = useState('Ready');
-            const [currentDate, setCurrentDate] = useState(() => getCurrentISTDate());
-            const [selectedDate, setSelectedDate] = useState(() => getCurrentISTDate());
+            const [currentDate, setCurrentDate] = useState(() => new Date());
+            const [selectedDate, setSelectedDate] = useState(() => new Date());
             const [showAddForm, setShowAddForm] = useState(false);
             const [isLoading, setIsLoading] = useState(false);
             
@@ -423,26 +423,14 @@
                 'other': 'bg-gray-500'
             };
 
-            // Utility functions
-            function getISTDate(date = new Date()) {
-                // Create date in IST timezone
-                const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
-                const istTime = utc + (5.5 * 60 * 60 * 1000); // IST offset: +5:30
-                const istDate = new Date(istTime);
-                return istDate.toISOString().split('T')[0];
-            }
+             function getISTDate(date = new Date()) {
+                return date.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+             }
 
-            function getCurrentISTDate() {
-                const now = new Date();
-                const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-                const istTime = utc + (5.5 * 60 * 60 * 1000); // IST offset: +5:30
-                return new Date(istTime);
-            }
-
-            function getTodayIST() {
-                return getISTDate(getCurrentISTDate());
-            }
-
+                      // today's date-string in IST
+              function getTodayIST() {
+               return getISTDate();
+             }
             // Update form date when selected date changes
             useEffect(() => {
                 setFormData(prev => ({
@@ -827,7 +815,7 @@
                                             ←
                                         </button>
                                         <button
-                                            onClick={() => setCurrentDate(getCurrentISTDate())}
+                                            onClick={() => setCurrentDate(new Date())}
                                             className="btn-primary text-xs"
                                         >
                                             Today
