@@ -295,8 +295,8 @@
         const CONFIG = {
             WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbx6eWf8VbYI-vHSYXVrp6NXmk2jLalTAwgh1cqwnJpqWkkv7QLT1viRTlj6XCX9SuZl/exec',
             ACCESS_CODES: {
-                'FAMILY001': 'You',
-                'FAMILY002': 'Wife'
+                'FAMILY001': 'MK',
+                'FAMILY002': 'Leela'
             }
         };
 
@@ -326,7 +326,7 @@
             
             const [formData, setFormData] = useState({
                 date: getISTDate(),
-                user: 'you',
+                user: 'MK',
                 category: 'vegetables',
                 amount: '',
                 description: ''
@@ -340,8 +340,8 @@
             ];
 
             const userColors = {
-                you: 'bg-blue-500',
-                wife: 'bg-pink-500'
+                MK: 'bg-blue-500',
+                Leela: 'bg-pink-500'
             };
 
             // Utility functions
@@ -438,7 +438,7 @@
                             const expenseData = result.data.map(row => ({
                                 id: row[5] || Date.now() + Math.random(),
                                 date: row[0] || '',
-                                user: row[1] || 'you',
+                                user: row[1] || 'MK',
                                 category: row[2] || 'other',
                                 amount: parseFloat(row[3]) || 0,
                                 description: row[4] || '',
@@ -501,7 +501,7 @@
                 
                 setFormData({
                     date: getISTDate(selectedDate),
-                    user: 'you',
+                    user: 'MK',
                     category: 'vegetables',
                     amount: '',
                     description: ''
@@ -697,8 +697,8 @@
                             {['daily', 'weekly', 'monthly'].map(period => {
                                 const periodExpenses = getExpensesForPeriod(period);
                                 const total = getTotalAmount(periodExpenses);
-                                const youTotal = getTotalAmount(periodExpenses, 'you');
-                                const wifeTotal = getTotalAmount(periodExpenses, 'wife');
+                                const MKTotal = getTotalAmount(periodExpenses, 'MK');
+                                const LeelaTotal = getTotalAmount(periodExpenses, 'Leela');
                                 
                                 return (
                                     <div key={period} className="bg-white p-4 rounded-lg shadow">
@@ -711,7 +711,7 @@
                                                     ₹{total.toFixed(2)}
                                                 </p>
                                                 <div className="text-xs text-gray-500 mt-1">
-                                                    You: ₹{youTotal.toFixed(2)} | Wife: ₹{wifeTotal.toFixed(2)}
+                                                    MK: ₹{MKTotal.toFixed(2)} | Leela: ₹{LeelaTotal.toFixed(2)}
                                                 </div>
                                             </div>
                                             {period === 'daily' && <Calendar />}
@@ -859,7 +859,7 @@
                                                             <p className="font-medium">{expense.description}</p>
                                                             <p className="text-sm text-gray-600">
                                                                 {expense.category.charAt(0).toUpperCase() + expense.category.slice(1)} • 
-                                                                {expense.user === 'you' ? ' You' : ' Wife'}
+                                                                {expense.user === 'MK' ? ' MK' : 'Leela'}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -894,7 +894,7 @@
                                                 setShowAddForm(false);
                                                 setFormData({
                                                     date: getISTDate(selectedDate),
-                                                    user: 'you',
+                                                    user: 'MK',
                                                     category: 'vegetables',
                                                     amount: '',
                                                     description: ''
@@ -924,8 +924,8 @@
                                                 onChange={(e) => setFormData({...formData, user: e.target.value})}
                                                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             >
-                                                <option value="you">You</option>
-                                                <option value="wife">Wife</option>
+                                                <option value="MK">MK</option>
+                                                <option value="Leela">Leela</option>
                                             </select>
                                         </div>
                                         
