@@ -136,15 +136,30 @@
                 const profile = user.getBasicProfile();
                 const email = profile.getEmail();
                 
+                console.log('=== DEBUG INFO ===');
+                console.log('User email from Google:', email);
+                console.log('Authorized users list:', CONFIG.AUTHORIZED_USERS);
+                console.log('Email is authorized:', CONFIG.AUTHORIZED_USERS.includes(email));
+                console.log('Email type:', typeof email);
+                console.log('First authorized email type:', typeof CONFIG.AUTHORIZED_USERS[0]);
+                
                 setUser({
                     name: profile.getName(),
                     email: email,
                     picture: profile.getImageUrl()
                 });
 
-                // Check if user is authorized
-                if (!CONFIG.AUTHORIZED_USERS.includes(email)) {
-                    alert('Access denied! You are not authorized to use this app.');
+                // Check if user is authorized (with debugging)
+                const isAuthorized = CONFIG.AUTHORIZED_USERS.includes(email);
+                if (!isAuthorized) {
+                    // Show debug info in alert for troubleshooting
+                    alert(`Access denied! 
+                    
+Your email: ${email}
+Authorized emails: ${CONFIG.AUTHORIZED_USERS.join(', ')}
+Match found: ${isAuthorized}
+
+Please check the AUTHORIZED_USERS configuration.`);
                     await signOut();
                     return;
                 }
