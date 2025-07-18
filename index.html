@@ -20,7 +20,7 @@
         // ============ CONFIGURATION ============
         const CONFIG = {
             // Google Sheets Web App URL (you'll create this)
-            WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbxtokqURa_q0AIBFOcUJFV65LQwZ7Qknr6uOPCjpWiElkVgMYykajnMotSKHq_OUDlR/exec',
+            WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbx6eWf8VbYI-vHSYXVrp6NXmk2jLalTAwgh1cqwnJpqWkkv7QLT1viRTlj6XCX9SuZl/exec',
             
             // Simple access codes for family members
             ACCESS_CODES: {
@@ -179,20 +179,30 @@
                     
                     const result = await callWebApp('getExpenses');
                     
-                    if (result.data && result.data.length > 0) {
-                        const expenseData = result.data.map(row => ({
-                            id: row[5] || Date.now(),
-                            date: row[0] || '',
-                            user: row[1] || 'you',
-                            category: row[2] || 'other',
-                            amount: parseFloat(row[3]) || 0,
-                            description: row[4] || '',
-                            timestamp: row[6] || new Date().toISOString()
-                        })).filter(expense => expense.date && expense.amount > 0);
+                    console.log('Load result:', result);
+                    
+                    if (result.success && result.data) {
+                        if (result.data.length > 0) {
+                            const expenseData = result.data.map(row => ({
+                                id: row[5] || Date.now() + Math.random(),
+                                date: row[0] || '',
+                                user: row[1] || 'you',
+                                category: row[2] || 'other',
+                                amount: parseFloat(row[3]) || 0,
+                                description: row[4] || '',
+                                timestamp: row[6] || new Date().toISOString()
+                            })).filter(expense => expense.date && expense.amount > 0);
 
-                        setExpenses(expenseData);
-                        setSyncStatus(`✅ Loaded ${expenseData.length} expenses`);
+                            console.log('Processed expense data:', expenseData);
+                            setExpenses(expenseData);
+                            setSyncStatus(`✅ Loaded ${expenseData.length} expenses`);
+                        } else {
+                            setExpenses([]);
+                            setSyncStatus('✅ Sheet is empty - ready to add expenses');
+                        }
                     } else {
+                        console.log('No data found or error in result');
+                        setExpenses([]);
                         setSyncStatus('✅ Sheet is empty - ready to add expenses');
                     }
                 } catch (error) {
@@ -207,7 +217,7 @@
                 try {
                     setSyncStatus('Saving expense...');
 
-                    await callWebApp('addExpense', {
+                    const result = await callWebApp('addExpense', {
                         date: expense.date,
                         user: expense.user,
                         category: expense.category,
@@ -217,12 +227,16 @@
                         timestamp: expense.timestamp
                     });
 
-                    setSyncStatus('✅ Expense saved');
-                    
-                    // Reload expenses to verify it was added
-                    setTimeout(() => {
-                        loadExpensesFromSheet();
-                    }, 1000);
+                    console.log('Save result:', result);
+
+                    if (result.success) {
+                        setSyncStatus('✅ Expense saved');
+                        
+                        // Force reload expenses from sheet to get latest data
+                        await loadExpensesFromSheet();
+                    } else {
+                        throw new Error(result.error || 'Unknown error saving expense');
+                    }
                     
                 } catch (error) {
                     console.error('Error saving expense:', error);
@@ -245,15 +259,14 @@
                     timestamp: new Date().toISOString()
                 };
                 
-                // Add to local state immediately
-                setExpenses([...expenses, newExpense]);
+                console.log('Adding new expense:', newExpense);
                 
-                // Save to Google Sheet
+                // Save to Google Sheet first
                 await saveExpenseToSheet(newExpense);
                 
                 // Reset form
                 setFormData({
-                    date: getISTDate(),
+                    date: getISTDate(selectedDate), // Keep the selected date
                     user: 'you',
                     category: 'vegetables',
                     amount: '',
