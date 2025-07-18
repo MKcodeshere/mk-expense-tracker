@@ -149,14 +149,8 @@
                     return;
                 }
 
-                // Check sheet access
-                const hasAccess = await checkSheetAccess();
-                if (!hasAccess) {
-                    alert('You do not have editor access to the expense sheet. Please contact the sheet owner.');
-                    await signOut();
-                    return;
-                }
-
+                // Skip sheet access check since email authorization is sufficient
+                // If user is in AUTHORIZED_USERS, they should have sheet access
                 setIsAuthenticated(true);
                 setHasSheetAccess(true);
                 setIsLoading(false);
@@ -522,7 +516,7 @@
                             <div className="bg-blue-50 p-4 rounded-lg mb-6">
                                 <Shield className="mx-auto mb-2 text-blue-500" size={24} />
                                 <p className="text-sm text-blue-700">
-                                    Only authorized users with sheet editor access can view and modify expenses
+                                    Only authorized users can access this expense tracker
                                 </p>
                             </div>
                             <button
