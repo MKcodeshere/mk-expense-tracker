@@ -88,6 +88,26 @@
             box-shadow: none;
         }
         
+        .btn-secondary {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-secondary:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+            transform: translateY(-1px);
+        }
+        
         /* Form Styles */
         .form-input {
             width: 100%;
@@ -117,6 +137,155 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
         }
+        
+        /* Additional utility classes for layout and styling */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .grid-cols-7 { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+        .gap-1 { gap: 0.25rem; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-1 { flex: 1 1 0%; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .text-center { text-align: center; }
+        .w-full { width: 100%; }
+        .w-3 { width: 0.75rem; }
+        .h-3 { height: 0.75rem; }
+        .min-h-screen { min-height: 100vh; }
+        .max-w-md { max-width: 28rem; }
+        .max-w-2xl { max-width: 42rem; }
+        .max-w-6xl { max-width: 72rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+        .p-1 { padding: 0.25rem; }
+        .p-3 { padding: 0.75rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+        
+        /* Colors */
+        .bg-white { background-color: rgb(255 255 255); }
+        .bg-gray-50 { background-color: rgb(249 250 251); }
+        .bg-gray-100 { background-color: rgb(243 244 246); }
+        .bg-blue-50 { background-color: rgb(239 246 255); }
+        .bg-blue-100 { background-color: rgb(219 234 254); }
+        .bg-blue-500 { background-color: rgb(59 130 246); }
+        .bg-red-50 { background-color: rgb(254 242 242); }
+        .bg-green-100 { background-color: rgb(220 252 231); }
+        .bg-yellow-50 { background-color: rgb(254 252 232); }
+        .bg-pink-500 { background-color: rgb(236 72 153); }
+        .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
+        .from-blue-50 { --tw-gradient-from: rgb(239 246 255); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(239 246 255 / 0)); }
+        .to-indigo-100 { --tw-gradient-to: rgb(224 231 255); }
+        
+        .text-gray-400 { color: rgb(156 163 175); }
+        .text-gray-500 { color: rgb(107 114 128); }
+        .text-gray-600 { color: rgb(75 85 99); }
+        .text-gray-700 { color: rgb(55 65 81); }
+        .text-gray-900 { color: rgb(17 24 39); }
+        .text-blue-600 { color: rgb(37 99 235); }
+        .text-blue-700 { color: rgb(29 78 216); }
+        .text-red-500 { color: rgb(239 68 68); }
+        .text-red-600 { color: rgb(220 38 38); }
+        .text-red-700 { color: rgb(185 28 28); }
+        .text-green-600 { color: rgb(22 163 74); }
+        .text-green-700 { color: rgb(21 128 61); }
+        .text-yellow-700 { color: rgb(161 98 7); }
+        .text-yellow-800 { color: rgb(133 77 14); }
+        
+        /* Typography */
+        .text-xs { font-size: 0.75rem; line-height: 1rem; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+        .uppercase { text-transform: uppercase; }
+        .tracking-wide { letter-spacing: 0.025em; }
+        .underline { text-decoration-line: underline; }
+        
+        /* Borders and Effects */
+        .border { border-width: 1px; }
+        .border-gray-200 { border-color: rgb(229 231 235); }
+        .border-gray-300 { border-color: rgb(209 213 219); }
+        .border-blue-200 { border-color: rgb(191 219 254); }
+        .border-yellow-200 { border-color: rgb(254 240 138); }
+        .rounded-lg { border-radius: 0.5rem; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .rounded-md { border-radius: 0.375rem; }
+        .rounded-full { border-radius: 9999px; }
+        .shadow { box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+        .shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+        .shadow-2xl { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
+        
+        /* Positioning */
+        .fixed { position: fixed; }
+        .inset-0 { inset: 0px; }
+        .z-50 { z-index: 50; }
+        
+        /* Responsive */
+        @media (min-width: 640px) {
+            .sm\:flex-row { flex-direction: row; }
+            .sm\:items-center { align-items: center; }
+        }
+        
+        @media (min-width: 768px) {
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        
+        /* Special utilities */
+        .space-y-3 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.75rem; }
+        .space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 1rem; }
+        .space-y-6 > :not([hidden]) ~ :not([hidden]) { margin-top: 1.5rem; }
+        .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        
+        /* Hover effects */
+        .hover\:bg-gray-50:hover { background-color: rgb(249 250 251); }
+        .hover\:bg-gray-100:hover { background-color: rgb(243 244 246); }
+        .hover\:bg-blue-600:hover { background-color: rgb(37 99 235); }
+        .hover\:bg-red-50:hover { background-color: rgb(254 242 242); }
+        .hover\:text-gray-600:hover { color: rgb(75 85 99); }
+        .hover\:text-red-700:hover { color: rgb(185 28 28); }
+
+        /* Focus styles */
+        .focus\:ring-2:focus { box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); }
+        .focus\:ring-blue-500:focus { --tw-ring-color: rgb(59 130 246); }
+        .focus\:border-transparent:focus { border-color: transparent; }
+
+        /* Disabled styles */
+        .disabled\:opacity-50:disabled { opacity: 0.5; }
+        .disabled\:cursor-not-allowed:disabled { cursor: not-allowed; }
+        .disabled\:bg-gray-300:disabled { background-color: rgb(209 213 219); }
     </style>
 </head>
 <body>
@@ -138,13 +307,11 @@
         const Plus = () => <svg className="lucide" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg>;
         const TrendingUp = () => <svg className="lucide" viewBox="0 0 24 24"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg>;
         const BarChart3 = () => <svg className="lucide" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>;
-        const Edit3 = () => <svg className="lucide" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>;
         const Trash2 = () => <svg className="lucide" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>;
         const X = () => <svg className="lucide" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg>;
         const Lock = () => <svg className="lucide" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>;
         const Shield = () => <svg className="lucide" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1v7z"/></svg>;
         const LoadingSpinner = () => <svg className="lucide loading" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>;
-        const RefreshCw = () => <svg className="lucide" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>;
 
         const ExpenseTracker = () => {
             const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -152,11 +319,10 @@
             const [accessCode, setAccessCode] = useState('');
             const [expenses, setExpenses] = useState([]);
             const [syncStatus, setSyncStatus] = useState('Ready');
-            const [isLoading, setIsLoading] = useState(false);
             const [currentDate, setCurrentDate] = useState(() => getCurrentISTDate());
             const [selectedDate, setSelectedDate] = useState(() => getCurrentISTDate());
             const [showAddForm, setShowAddForm] = useState(false);
-            const [editingExpense, setEditingExpense] = useState(null);
+            const [isLoading, setIsLoading] = useState(false);
             
             const [formData, setFormData] = useState({
                 date: getISTDate(),
@@ -199,11 +365,15 @@
                 }));
             }, [selectedDate]);
 
-            // Check authentication on load (but don't use localStorage in artifacts)
+            // Check authentication on load
             useEffect(() => {
-                // In a real implementation, you might check authentication state
-                // For now, we'll just initialize
-                console.log('App initialized');
+                const savedAuth = localStorage.getItem('expenseTrackerAuth');
+                const savedUser = localStorage.getItem('expenseTrackerUser');
+                if (savedAuth && savedUser) {
+                    setIsAuthenticated(true);
+                    setCurrentUser(savedUser);
+                    loadExpensesFromSheet();
+                }
             }, []);
 
             // Authentication
@@ -212,6 +382,8 @@
                 if (CONFIG.ACCESS_CODES[trimmedCode]) {
                     setIsAuthenticated(true);
                     setCurrentUser(CONFIG.ACCESS_CODES[trimmedCode]);
+                    localStorage.setItem('expenseTrackerAuth', 'true');
+                    localStorage.setItem('expenseTrackerUser', CONFIG.ACCESS_CODES[trimmedCode]);
                     loadExpensesFromSheet();
                 } else {
                     alert('Invalid access code. Please check with family members for the correct code.');
@@ -222,6 +394,8 @@
             const signOut = () => {
                 setIsAuthenticated(false);
                 setCurrentUser('');
+                localStorage.removeItem('expenseTrackerAuth');
+                localStorage.removeItem('expenseTrackerUser');
                 setExpenses([]);
                 setAccessCode('');
             };
@@ -255,8 +429,8 @@
 
             const loadExpensesFromSheet = async () => {
                 try {
-                    setIsLoading(true);
                     setSyncStatus('Loading expenses...');
+                    setIsLoading(true);
                     const result = await callWebApp('getExpenses');
                     
                     if (result.success && result.data) {
@@ -291,8 +465,8 @@
 
             const saveExpenseToSheet = async (expense) => {
                 try {
-                    setIsLoading(true);
                     setSyncStatus('Saving expense...');
+                    setIsLoading(true);
                     const result = await callWebApp('addExpense', expense);
 
                     if (result.success) {
@@ -310,53 +484,11 @@
                 }
             };
 
-            const deleteExpenseFromSheet = async (expenseId) => {
-                try {
-                    setIsLoading(true);
-                    setSyncStatus('Deleting expense...');
-                    const result = await callWebApp('deleteExpense', { id: expenseId });
-
-                    if (result.success) {
-                        setSyncStatus('✅ Expense deleted');
-                        await loadExpensesFromSheet();
-                    } else {
-                        throw new Error(result.error || 'Unknown error deleting expense');
-                    }
-                } catch (error) {
-                    console.error('Error deleting expense:', error);
-                    setSyncStatus('❌ Delete failed');
-                    alert('Failed to delete expense. Please try again.');
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-
-            const updateExpenseInSheet = async (expense) => {
-                try {
-                    setIsLoading(true);
-                    setSyncStatus('Updating expense...');
-                    const result = await callWebApp('updateExpense', expense);
-
-                    if (result.success) {
-                        setSyncStatus('✅ Expense updated');
-                        await loadExpensesFromSheet();
-                    } else {
-                        throw new Error(result.error || 'Unknown error updating expense');
-                    }
-                } catch (error) {
-                    console.error('Error updating expense:', error);
-                    setSyncStatus('❌ Update failed');
-                    alert('Failed to update expense. Please try again.');
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-
             const handleAddExpense = async () => {
                 if (!formData.amount || !formData.description) return;
                 
                 const newExpense = {
-                    id: editingExpense ? editingExpense.id : Date.now(),
+                    id: Date.now(),
                     date: formData.date,
                     user: formData.user,
                     category: formData.category,
@@ -365,11 +497,7 @@
                     timestamp: new Date().toISOString()
                 };
                 
-                if (editingExpense) {
-                    await updateExpenseInSheet(newExpense);
-                } else {
-                    await saveExpenseToSheet(newExpense);
-                }
+                await saveExpenseToSheet(newExpense);
                 
                 setFormData({
                     date: getISTDate(selectedDate),
@@ -379,24 +507,12 @@
                     description: ''
                 });
                 setShowAddForm(false);
-                setEditingExpense(null);
-            };
-
-            const handleEditExpense = (expense) => {
-                setEditingExpense(expense);
-                setFormData({
-                    date: expense.date,
-                    user: expense.user,
-                    category: expense.category,
-                    amount: expense.amount.toString(),
-                    description: expense.description
-                });
-                setShowAddForm(true);
             };
 
             const handleDeleteExpense = async (expenseId) => {
                 if (confirm('Are you sure you want to delete this expense?')) {
-                    await deleteExpenseFromSheet(expenseId);
+                    setExpenses(expenses.filter(expense => expense.id !== expenseId));
+                    setSyncStatus('⚠️ Deleted locally - please refresh to sync with sheet');
                 }
             };
 
@@ -435,16 +551,6 @@
             const getTotalAmount = (expensesList, user = 'both') => {
                 const filtered = user === 'both' ? expensesList : expensesList.filter(e => e.user === user);
                 return filtered.reduce((total, expense) => total + expense.amount, 0);
-            };
-
-            const getCategoryBreakdown = (expensesList) => {
-                const breakdown = {};
-                expensesList.forEach(expense => {
-                    breakdown[expense.category] = (breakdown[expense.category] || 0) + expense.amount;
-                });
-                return Object.entries(breakdown)
-                    .sort(([,a], [,b]) => b - a)
-                    .slice(0, 5);
             };
 
             // Configuration screen
@@ -498,30 +604,34 @@
                             
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Access Code</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Access Code
+                                    </label>
                                     <input
-                                        type="password"
+                                        type="text"
                                         value={accessCode}
                                         onChange={(e) => setAccessCode(e.target.value)}
                                         onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
                                         className="form-input"
-                                        placeholder="Enter family access code"
+                                        placeholder="Enter your family code"
                                     />
                                 </div>
                                 
                                 <button
                                     onClick={handleLogin}
-                                    className="w-full btn-primary"
+                                    className="btn-primary w-full"
+                                    disabled={!accessCode.trim()}
                                 >
-                                    <Lock className="mr-2" size={20} />
+                                    <Lock className="w-5 h-5 mr-2" />
                                     Access Family Tracker
                                 </button>
                             </div>
                             
-                            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                                <p className="text-sm text-blue-700">
-                                    🔒 <strong>Secure Family Access:</strong> Only family members with the access code can view expense data.
-                                    Contact your family member if you need the access code.
+                            <div className="mt-6 p-3 bg-blue-50 rounded-lg">
+                                <p className="text-xs text-blue-600 text-center">
+                                    🔒 Secure family-only access<br/>
+                                    📊 Data synced with Google Sheets<br/>
+                                    💰 Track expenses together
                                 </p>
                             </div>
                         </div>
@@ -531,45 +641,41 @@
 
             // Main app interface
             return (
-                <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-                    <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+                <div className="min-h-screen bg-gray-100 p-4">
+                    <div className="max-w-6xl mx-auto">
                         {/* Header */}
-                        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6">
-                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                                <div className="flex items-center gap-4">
-                                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl w-12 h-12 flex items-center justify-center shadow-lg">
-                                        <Shield size={24} className="text-white" />
+                        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center">
+                                        <Shield size={20} className="text-blue-600" />
                                     </div>
                                     <div>
-                                        <h2 className="text-xl font-bold text-gray-900">Welcome, {currentUser}</h2>
-                                        <p className="text-sm text-emerald-600 font-medium flex items-center gap-1">
-                                            <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
-                                            Authorized Family Member
-                                        </p>
+                                        <h2 className="font-semibold text-gray-900">Welcome, {currentUser}!</h2>
+                                        <p className="text-sm text-gray-500">Family Expense Tracker</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="text-sm bg-gray-100 px-3 py-2 rounded-lg">
+                                <div className="flex items-center gap-4">
+                                    <div className="text-sm">
                                         {isLoading ? (
-                                            <span className="text-blue-600 flex items-center gap-2">
+                                            <span className="text-blue-600 flex items-center gap-1">
                                                 <LoadingSpinner className="w-4 h-4" />
                                                 Syncing...
                                             </span>
                                         ) : (
-                                            <span className="text-gray-700 font-medium">{syncStatus}</span>
+                                            <span className="text-gray-600">{syncStatus}</span>
                                         )}
                                     </div>
                                     <button
                                         onClick={loadExpensesFromSheet}
                                         disabled={isLoading}
-                                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 flex items-center gap-2 transition-all shadow-md hover:shadow-lg"
+                                        className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 disabled:opacity-50"
                                     >
-                                        <RefreshCw className="w-4 h-4" />
                                         Refresh
                                     </button>
                                     <button
                                         onClick={signOut}
-                                        className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all shadow-md hover:shadow-lg"
+                                        className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600"
                                     >
                                         Sign Out
                                     </button>
@@ -577,18 +683,17 @@
                             </div>
                         </div>
 
-                        {/* Title Section */}
-                        <div className="text-center">
-                            <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-3">
-                                🔐 Private Family Expense Tracker
+                        <div className="text-center mb-8">
+                            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                                💰 Family Expense Tracker
                             </h1>
-                            <p className="text-gray-600 text-lg">
-                                Secured with Google Sheets • Family Members Only
+                            <p className="text-gray-600">
+                                Track and manage your family expenses together
                             </p>
                         </div>
 
                         {/* Summary Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                             {['daily', 'weekly', 'monthly'].map(period => {
                                 const periodExpenses = getExpensesForPeriod(period);
                                 const total = getTotalAmount(periodExpenses);
@@ -596,107 +701,67 @@
                                 const wifeTotal = getTotalAmount(periodExpenses, 'wife');
                                 
                                 return (
-                                    <div key={period} className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-                                        <div className="flex items-center justify-between mb-4">
-                                            <div className="flex-1">
-                                                <p className="text-sm font-medium text-gray-600 uppercase tracking-wide">
+                                    <div key={period} className="bg-white p-4 rounded-lg shadow">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <p className="text-sm text-gray-600">
                                                     {period === 'daily' ? "Today's" : period.charAt(0).toUpperCase() + period.slice(1)} Total
                                                 </p>
-                                                <p className="text-3xl font-bold text-emerald-600 mt-1">
+                                                <p className="text-2xl font-semibold text-green-600">
                                                     ₹{total.toFixed(2)}
                                                 </p>
+                                                <div className="text-xs text-gray-500 mt-1">
+                                                    You: ₹{youTotal.toFixed(2)} | Wife: ₹{wifeTotal.toFixed(2)}
+                                                </div>
                                             </div>
-                                            <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center">
-                                                {period === 'daily' && <Calendar className="text-blue-600" />}
-                                                {period === 'weekly' && <BarChart3 className="text-blue-600" />}
-                                                {period === 'monthly' && <TrendingUp className="text-blue-600" />}
-                                            </div>
-                                        </div>
-                                        <div className="flex justify-between text-sm">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                                                <span className="text-gray-600">You: ₹{youTotal.toFixed(2)}</span>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-3 h-3 bg-pink-500 rounded-full"></div>
-                                                <span className="text-gray-600">Wife: ₹{wifeTotal.toFixed(2)}</span>
-                                            </div>
+                                            {period === 'daily' && <Calendar />}
+                                            {period === 'weekly' && <BarChart3 />}
+                                            {period === 'monthly' && <TrendingUp />}
                                         </div>
                                     </div>
                                 );
                             })}
                         </div>
 
-                        {/* Category Breakdown */}
-                        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6">
-                            <h3 className="text-xl font-bold text-gray-900 mb-6">Top Categories This Month</h3>
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                                {getCategoryBreakdown(getExpensesForPeriod('monthly')).map(([category, amount], index) => (
-                                    <div key={category} className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                                        <div className={`w-10 h-10 mx-auto mb-3 rounded-full flex items-center justify-center text-white font-bold ${
-                                            index === 0 ? 'bg-gradient-to-br from-yellow-400 to-yellow-500' :
-                                            index === 1 ? 'bg-gradient-to-br from-gray-400 to-gray-500' :
-                                            index === 2 ? 'bg-gradient-to-br from-orange-400 to-orange-500' :
-                                            'bg-gradient-to-br from-blue-400 to-blue-500'
-                                        }`}>
-                                            {index + 1}
-                                        </div>
-                                        <p className="text-sm font-semibold text-gray-700 capitalize mb-1">{category}</p>
-                                        <p className="text-lg font-bold text-emerald-600">₹{amount.toFixed(2)}</p>
-                                    </div>
-                                ))}
-                                {getCategoryBreakdown(getExpensesForPeriod('monthly')).length === 0 && (
-                                    <div className="col-span-full text-center text-gray-500 py-8">
-                                        <BarChart3 size={48} className="mx-auto mb-3 text-gray-300" />
-                                        <p>No expenses recorded this month</p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Main Content Grid */}
-                        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                            {/* Calendar - Takes 2 columns on xl screens */}
-                            <div className="xl:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6">
+                        {/* Calendar and Expenses List */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {/* Calendar */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
                                 <div className="flex items-center justify-between mb-6">
-                                    <h2 className="text-2xl font-bold text-gray-900">
+                                    <h2 className="text-xl font-semibold">
                                         {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                                     </h2>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex gap-2">
                                         <button
                                             onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
-                                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                            className="p-2 hover:bg-gray-100 rounded"
                                         >
-                                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <path d="M15 18l-6-6 6-6"/>
-                                            </svg>
+                                            ←
                                         </button>
                                         <button
                                             onClick={() => setCurrentDate(getCurrentISTDate())}
-                                            className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
+                                            className="px-3 py-1 bg-blue-500 text-white rounded text-sm"
                                         >
                                             Today
                                         </button>
                                         <button
                                             onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
-                                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                            className="p-2 hover:bg-gray-100 rounded"
                                         >
-                                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <path d="M9 18l6-6-6-6"/>
-                                            </svg>
+                                            →
                                         </button>
                                     </div>
                                 </div>
                                 
-                                <div className="grid grid-cols-7 gap-2 mb-4">
+                                <div className="grid grid-cols-7 gap-1 mb-2">
                                     {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                                        <div key={day} className="p-3 text-center text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                                        <div key={day} className="p-2 text-center text-sm font-medium text-gray-600">
                                             {day}
                                         </div>
                                     ))}
                                 </div>
                                 
-                                <div className="grid grid-cols-7 gap-2">
+                                <div className="grid grid-cols-7 gap-1">
                                     {(() => {
                                         const year = currentDate.getFullYear();
                                         const month = currentDate.getMonth();
@@ -724,32 +789,28 @@
                                                 <div
                                                     key={index}
                                                     onClick={() => setSelectedDate(day)}
-                                                    className={`p-3 min-h-[70px] cursor-pointer rounded-xl transition-all duration-200 border-2 ${
-                                                        isSelected ? 'bg-blue-100 border-blue-500 shadow-lg scale-105' : 
-                                                        isToday ? 'bg-yellow-100 border-yellow-400 shadow-md' : 
-                                                        'border-transparent hover:bg-gray-50 hover:border-gray-200 hover:shadow-md'
-                                                    } ${!isCurrentMonth ? 'opacity-40' : ''}`}
+                                                    className={`calendar-day ${
+                                                        isSelected ? 'selected' : 
+                                                        isToday ? 'today' : ''
+                                                    } ${!isCurrentMonth ? 'other-month' : ''}`}
                                                 >
-                                                    <div className={`text-sm font-semibold ${
-                                                        isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
-                                                    } ${isToday ? 'text-yellow-800' : ''} ${isSelected ? 'text-blue-800' : ''}`}>
+                                                    <div className={`text-sm ${isCurrentMonth ? 'text-gray-900' : 'text-gray-400'}`}>
                                                         {day.getDate()}
                                                     </div>
                                                     {dayExpenses.length > 0 && (
-                                                        <div className="mt-2">
-                                                            <div className="text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">
-                                                                ₹{dayTotal.toFixed(0)}
+                                                        <div className="mt-1">
+                                                            <div className="text-xs text-green-600 font-medium">
+                                                                ₹{dayTotal.toFixed(2)}
                                                             </div>
-                                                            <div className="flex gap-1 mt-2 flex-wrap">
-                                                                {dayExpenses.slice(0, 3).map(expense => (
+                                                            <div className="flex gap-1 mt-1">
+                                                                {dayExpenses.slice(0, 2).map(expense => (
                                                                     <div
                                                                         key={expense.id}
                                                                         className={`w-2 h-2 rounded-full ${userColors[expense.user]}`}
-                                                                        title={`${expense.user}: ${expense.description}`}
                                                                     />
                                                                 ))}
-                                                                {dayExpenses.length > 3 && (
-                                                                    <div className="text-xs text-gray-500 font-medium">+{dayExpenses.length - 3}</div>
+                                                                {dayExpenses.length > 2 && (
+                                                                    <div className="text-xs text-gray-500">+{dayExpenses.length - 2}</div>
                                                                 )}
                                                             </div>
                                                         </div>
@@ -761,21 +822,16 @@
                                 </div>
                             </div>
 
-                            {/* Expenses List - Takes 1 column */}
-                            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6">
-                                <div className="flex items-center justify-between mb-6">
-                                    <div>
-                                        <h3 className="text-xl font-bold text-gray-900">
-                                            {selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                        </h3>
-                                        <p className="text-sm text-gray-600">
-                                            {selectedDate.toLocaleDateString('en-US', { weekday: 'long' })}
-                                        </p>
-                                    </div>
+                            {/* Expenses List */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-lg font-semibold">
+                                        Expenses for {selectedDate.toLocaleDateString()}
+                                    </h3>
                                     <button
                                         onClick={() => setShowAddForm(true)}
                                         disabled={isLoading}
-                                        className="btn-primary disabled:opacity-50 flex items-center gap-2 text-sm px-4 py-2 shadow-lg hover:shadow-xl"
+                                        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:opacity-50 flex items-center gap-2"
                                     >
                                         <Plus size={16} />
                                         Add Expense
@@ -784,314 +840,146 @@
                                 
                                 {(() => {
                                     const selectedDateExpenses = getExpensesForDate(selectedDate);
-                                    const selectedDateTotal = getTotalAmount(selectedDateExpenses);
                                     
                                     if (selectedDateExpenses.length === 0) {
                                         return (
-                                            <div className="text-center py-12">
-                                                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                    <Calendar size={32} className="text-gray-400" />
-                                                </div>
-                                                <p className="text-gray-500 mb-4">No expenses for this date</p>
-                                                <button
-                                                    onClick={() => setShowAddForm(true)}
-                                                    className="text-blue-600 hover:text-blue-800 text-sm font-medium underline"
-                                                >
-                                                    Add your first expense
-                                                </button>
-                                            </div>
+                                            <p className="text-gray-500 text-center py-8">
+                                                No expenses recorded for this date
+                                            </p>
                                         );
                                     }
                                     
                                     return (
-                                        <div className="space-y-4">
-                                            <div className="bg-gradient-to-r from-emerald-50 to-emerald-100 rounded-xl p-4 border border-emerald-200">
-                                                <div className="text-center">
-                                                    <p className="text-sm text-emerald-700 font-medium">Total for this day</p>
-                                                    <p className="text-2xl font-bold text-emerald-800">₹{selectedDateTotal.toFixed(2)}</p>
-                                                </div>
-                                            </div>
-                                            
-                                            <div className="space-y-3 max-h-96 overflow-y-auto">
-                                                {selectedDateExpenses.map(expense => (
-                                                    <div key={expense.id} className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 hover:shadow-md transition-all duration-200 border border-gray-200">
-                                                        <div className="flex items-start justify-between">
-                                                            <div className="flex items-start gap-3 flex-1">
-                                                                <div className={`w-4 h-4 rounded-full mt-1 ${userColors[expense.user]} ring-2 ring-white shadow-sm`} />
-                                                                <div className="flex-1">
-                                                                    <p className="font-semibold text-gray-900 mb-1">{expense.description}</p>
-                                                                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                                                                        <span className="bg-gray-200 px-2 py-1 rounded-full text-xs font-medium capitalize">
-                                                                            {expense.category}
-                                                                        </span>
-                                                                        <span className="text-xs">•</span>
-                                                                        <span className="font-medium">
-                                                                            {expense.user === 'you' ? 'You' : 'Wife'}
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex items-center gap-2 ml-3">
-                                                                <span className="font-bold text-emerald-600 text-lg">
-                                                                    ₹{expense.amount.toFixed(2)}
-                                                                </span>
-                                                                <div className="flex gap-1">
-                                                                    <button
-                                                                        onClick={() => handleEditExpense(expense)}
-                                                                        disabled={isLoading}
-                                                                        className="p-1.5 text-blue-500 hover:text-blue-700 hover:bg-blue-100 rounded-lg disabled:opacity-50 transition-colors"
-                                                                        title="Edit expense"
-                                                                    >
-                                                                        <Edit3 size={14} />
-                                                                    </button>
-                                                                    <button
-                                                                        onClick={() => handleDeleteExpense(expense.id)}
-                                                                        disabled={isLoading}
-                                                                        className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-lg disabled:opacity-50 transition-colors"
-                                                                        title="Delete expense"
-                                                                    >
-                                                                        <Trash2 size={14} />
-                                                                    </button>
-                                                                </div>
-                                                            </div>
+                                        <div className="space-y-3">
+                                            {selectedDateExpenses.map(expense => (
+                                                <div key={expense.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-3 h-3 rounded-full ${userColors[expense.user]}`} />
+                                                        <div>
+                                                            <p className="font-medium">{expense.description}</p>
+                                                            <p className="text-sm text-gray-600">
+                                                                {expense.category.charAt(0).toUpperCase() + expense.category.slice(1)} • 
+                                                                {expense.user === 'you' ? ' You' : ' Wife'}
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                ))}
-                                            </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="font-semibold text-green-600">
+                                                            ₹{expense.amount.toFixed(2)}
+                                                        </span>
+                                                        <button
+                                                            onClick={() => handleDeleteExpense(expense.id)}
+                                                            disabled={isLoading}
+                                                            className="text-red-500 hover:text-red-700 p-1 disabled:opacity-50"
+                                                        >
+                                                            <Trash2 size={16} />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
                                     );
                                 })()}
                             </div>
                         </div>
 
-                        {/* Add/Edit Expense Form */}
+                        {/* Add Expense Form */}
                         {showAddForm && (
-                            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                                <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto border border-white/20">
-                                    <div className="p-6">
-                                        <div className="flex justify-between items-center mb-6">
-                                            <div>
-                                                <h3 className="text-2xl font-bold text-gray-900">
-                                                    {editingExpense ? 'Edit Expense' : 'Add New Expense'}
-                                                </h3>
-                                                <p className="text-gray-600 mt-1">
-                                                    {editingExpense ? 'Update expense details' : 'Record a new family expense'}
-                                                </p>
-                                            </div>
-                                            <button
-                                                onClick={() => {
-                                                    setShowAddForm(false);
-                                                    setEditingExpense(null);
-                                                    setFormData({
-                                                        date: getISTDate(selectedDate),
-                                                        user: 'you',
-                                                        category: 'vegetables',
-                                                        amount: '',
-                                                        description: ''
-                                                    });
-                                                }}
-                                                className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
-                                            >
-                                                <X size={24} />
-                                            </button>
+                            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                                <div className="bg-white rounded-lg p-6 w-full max-w-md">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h3 className="text-lg font-semibold">Add New Expense</h3>
+                                        <button
+                                            onClick={() => {
+                                                setShowAddForm(false);
+                                                setFormData({
+                                                    date: getISTDate(selectedDate),
+                                                    user: 'you',
+                                                    category: 'vegetables',
+                                                    amount: '',
+                                                    description: ''
+                                                });
+                                            }}
+                                            className="text-gray-500 hover:text-gray-700"
+                                        >
+                                            <X size={20} />
+                                        </button>
+                                    </div>
+                                    
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                            <input
+                                                type="date"
+                                                value={formData.date}
+                                                onChange={(e) => setFormData({...formData, date: e.target.value})}
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            />
                                         </div>
                                         
-                                        <div className="space-y-5">
-                                            <div>
-                                                <label className="block text-sm font-semibold text-gray-700 mb-2">Date</label>
-                                                <input
-                                                    type="date"
-                                                    value={formData.date}
-                                                    onChange={(e) => setFormData({...formData, date: e.target.value})}
-                                                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all text-gray-900 font-medium"
-                                                />
-                                            </div>
-                                            
-                                            <div>
-                                                <label className="block text-sm font-semibold text-gray-700 mb-2">Who spent?</label>
-                                                <div className="grid grid-cols-2 gap-3">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setFormData({...formData, user: 'you'})}
-                                                        className={`p-4 rounded-xl border-2 transition-all font-medium ${
-                                                            formData.user === 'you' 
-                                                            ? 'border-blue-500 bg-blue-50 text-blue-700' 
-                                                            : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                                                        }`}
-                                                    >
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                                                            You
-                                                        </div>
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setFormData({...formData, user: 'wife'})}
-                                                        className={`p-4 rounded-xl border-2 transition-all font-medium ${
-                                                            formData.user === 'wife' 
-                                                            ? 'border-pink-500 bg-pink-50 text-pink-700' 
-                                                            : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                                                        }`}
-                                                    >
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-3 h-3 bg-pink-500 rounded-full"></div>
-                                                            Wife
-                                                        </div>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            
-                                            <div>
-                                                <label className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
-                                                <select
-                                                    value={formData.category}
-                                                    onChange={(e) => setFormData({...formData, category: e.target.value})}
-                                                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all text-gray-900 font-medium bg-white"
-                                                >
-                                                    {categories.map(cat => (
-                                                        <option key={cat} value={cat}>
-                                                            {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            
-                                            <div>
-                                                <label className="block text-sm font-semibold text-gray-700 mb-2">Amount (₹)</label>
-                                                <div className="relative">
-                                                    <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-bold text-lg">₹</span>
-                                                    <input
-                                                        type="number"
-                                                        step="0.01"
-                                                        value={formData.amount}
-                                                        onChange={(e) => setFormData({...formData, amount: e.target.value})}
-                                                        className="w-full pl-10 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all text-gray-900 font-medium text-lg"
-                                                        placeholder="0.00"
-                                                    />
-                                                </div>
-                                            </div>
-                                            
-                                            <div>
-                                                <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
-                                                <input
-                                                    type="text"
-                                                    value={formData.description}
-                                                    onChange={(e) => setFormData({...formData, description: e.target.value})}
-                                                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all text-gray-900 font-medium"
-                                                    placeholder="What was this expense for?"
-                                                />
-                                            </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Who spent?</label>
+                                            <select
+                                                value={formData.user}
+                                                onChange={(e) => setFormData({...formData, user: e.target.value})}
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            >
+                                                <option value="you">You</option>
+                                                <option value="wife">Wife</option>
+                                            </select>
                                         </div>
                                         
-                                        <div className="flex gap-4 mt-8">
-                                            <button
-                                                onClick={() => {
-                                                    setShowAddForm(false);
-                                                    setEditingExpense(null);
-                                                    setFormData({
-                                                        date: getISTDate(selectedDate),
-                                                        user: 'you',
-                                                        category: 'vegetables',
-                                                        amount: '',
-                                                        description: ''
-                                                    });
-                                                }}
-                                                className="flex-1 px-6 py-4 border-2 border-gray-200 rounded-xl text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                            <select
+                                                value={formData.category}
+                                                onChange={(e) => setFormData({...formData, category: e.target.value})}
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             >
-                                                Cancel
-                                            </button>
-                                            <button
-                                                onClick={handleAddExpense}
-                                                disabled={!formData.amount || !formData.description || isLoading}
-                                                className="flex-1 px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl disabled:shadow-none"
-                                            >
-                                                {isLoading ? (
-                                                    <span className="flex items-center justify-center gap-2">
-                                                        <LoadingSpinner className="w-5 h-5" />
-                                                        Saving...
-                                                    </span>
-                                                ) : (
-                                                    editingExpense ? 'Update Expense' : 'Add Expense'
-                                                )}
-                                            </button>
+                                                {categories.map(cat => (
+                                                    <option key={cat} value={cat}>
+                                                        {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
+                                        
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Amount (₹)</label>
+                                            <input
+                                                type="number"
+                                                step="0.01"
+                                                value={formData.amount}
+                                                onChange={(e) => setFormData({...formData, amount: e.target.value})}
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="0.00"
+                                            />
+                                        </div>
+                                        
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                            <input
+                                                type="text"
+                                                value={formData.description}
+                                                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="What was this expense for?"
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex gap-3 mt-6">
+                                        <button
+                                            onClick={handleAddExpense}
+                                            disabled={!formData.amount || !formData.description || isLoading}
+                                            className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                                        >
+                                            {isLoading ? 'Saving...' : 'Add Expense'}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         )}
-
-                        {/* Recent Expenses */}
-                        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-gray-900">Recent Expenses</h3>
-                                <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                                    Last 10 entries
-                                </span>
-                            </div>
-                            
-                            <div className="space-y-3 max-h-80 overflow-y-auto">
-                                {expenses.slice(0, 10).map(expense => (
-                                    <div key={expense.id} className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 hover:shadow-lg transition-all duration-200 border border-gray-200 hover:border-gray-300">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-4 flex-1">
-                                                <div className={`w-4 h-4 rounded-full ${userColors[expense.user]} ring-2 ring-white shadow-sm`} />
-                                                <div className="flex-1">
-                                                    <p className="font-semibold text-gray-900 mb-1">{expense.description}</p>
-                                                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                                                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
-                                                            {new Date(expense.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                                        </span>
-                                                        <span className="bg-gray-200 px-2 py-1 rounded-full text-xs font-medium capitalize">
-                                                            {expense.category}
-                                                        </span>
-                                                        <span className="font-medium">
-                                                            {expense.user === 'you' ? 'You' : 'Wife'}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center gap-3">
-                                                <span className="font-bold text-emerald-600 text-lg">
-                                                    ₹{expense.amount.toFixed(2)}
-                                                </span>
-                                                <div className="flex gap-1">
-                                                    <button
-                                                        onClick={() => handleEditExpense(expense)}
-                                                        disabled={isLoading}
-                                                        className="p-2 text-blue-500 hover:text-blue-700 hover:bg-blue-100 rounded-lg disabled:opacity-50 transition-colors"
-                                                        title="Edit expense"
-                                                    >
-                                                        <Edit3 size={16} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDeleteExpense(expense.id)}
-                                                        disabled={isLoading}
-                                                        className="p-2 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-lg disabled:opacity-50 transition-colors"
-                                                        title="Delete expense"
-                                                    >
-                                                        <Trash2 size={16} />
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                                {expenses.length === 0 && (
-                                    <div className="text-center py-12">
-                                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                            <BarChart3 size={32} className="text-gray-400" />
-                                        </div>
-                                        <p className="text-gray-500 mb-4">No expenses recorded yet</p>
-                                        <button
-                                            onClick={() => setShowAddForm(true)}
-                                            className="text-blue-600 hover:text-blue-800 font-medium underline"
-                                        >
-                                            Add your first expense
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
                     </div>
                 </div>
             );
