@@ -395,7 +395,7 @@
             
             const [formData, setFormData] = useState({
                 date: getISTDate(),
-                user: 'MK',
+                user: '',
                 category: 'vegetables',
                 amount: '',
                 description: ''
@@ -575,7 +575,7 @@
                 
                 setFormData({
                     date: getISTDate(selectedDate),
-                    user: 'MK',
+                    user: currentUser,
                     category: 'vegetables',
                     amount: '',
                     description: ''
@@ -906,7 +906,16 @@
                                         {selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} Expenses
                                     </h3>
                                     <button
-                                        onClick={() => setShowAddForm(true)}
+                                          onClick={() => {
+                                            setFormData({
+                                               date:      getISTDate(selectedDate),
+                                               user:      currentUser,    // <-- seed from whoever is logged in
+                                               category:  'vegetables',
+                                               amount:    '',
+                                               description:''
+                                             });
+                                             setShowAddForm(true);
+                                           }}
                                         disabled={isLoading}
                                         className="btn-primary text-xs flex items-center gap-1"
                                     >
@@ -976,7 +985,7 @@
                                                 setShowAddForm(false);
                                                 setFormData({
                                                     date: getISTDate(selectedDate),
-                                                    user: 'MK',
+                                                    user: currentUser,
                                                     category: 'vegetables',
                                                     amount: '',
                                                     description: ''
