@@ -364,8 +364,8 @@
         const CONFIG = {
             WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbx6eWf8VbYI-vHSYXVrp6NXmk2jLalTAwgh1cqwnJpqWkkv7QLT1viRTlj6XCX9SuZl/exec',
             ACCESS_CODES: {
-                'FAMILY001': 'You',
-                'FAMILY002': 'Wife'
+                'FAMILY001': 'MK',
+                'FAMILY002': 'LEELA'
             }
         };
 
@@ -395,7 +395,7 @@
             
             const [formData, setFormData] = useState({
                 date: getISTDate(),
-                user: 'you',
+                user: 'MK',
                 category: 'vegetables',
                 amount: '',
                 description: ''
@@ -409,8 +409,8 @@
             ];
 
             const userColors = {
-                you: 'bg-blue-500',
-                wife: 'bg-orange-500'
+                MK: 'bg-blue-500',
+                LEELA: 'bg-orange-500'
             };
 
             const categoryColors = {
@@ -512,7 +512,7 @@
                             const expenseData = result.data.map(row => ({
                                 id: row[5] || Date.now() + Math.random(),
                                 date: row[0] || '',
-                                user: row[1] || 'you',
+                                user: row[1] || 'MK',
                                 category: row[2] || 'other',
                                 amount: parseFloat(row[3]) || 0,
                                 description: row[4] || '',
@@ -575,7 +575,7 @@
                 
                 setFormData({
                     date: getISTDate(selectedDate),
-                    user: 'you',
+                    user: 'MK',
                     category: 'vegetables',
                     amount: '',
                     description: ''
@@ -771,8 +771,8 @@
                             {['daily', 'weekly', 'monthly'].map(period => {
                                 const periodExpenses = getExpensesForPeriod(period);
                                 const total = getTotalAmount(periodExpenses);
-                                const youTotal = getTotalAmount(periodExpenses, 'you');
-                                const wifeTotal = getTotalAmount(periodExpenses, 'wife');
+                                const MKtotal = getTotalAmount(periodExpenses, 'MK');
+                                const LeelaTotal = getTotalAmount(periodExpenses, 'LEELA');
                                 
                                 return (
                                     <div key={period} className={`card card-${period} p-3`}>
@@ -785,7 +785,7 @@
                                                     ₹{total.toFixed(2)}
                                                 </p>
                                                 <div className="text-xs opacity-80 mt-1">
-                                                    You: ₹{youTotal.toFixed(2)} | Wife: ₹{wifeTotal.toFixed(2)}
+                                                    MK: ₹{MKtotal.toFixed(2)} | LEELA: ₹{LeelaTotal.toFixed(2)}
                                                 </div>
                                             </div>
                                             <div className="opacity-80">
@@ -882,7 +882,7 @@
                                                                 {dayExpenses.slice(0, 3).map(expense => (
                                                                     <div
                                                                         key={expense.id}
-                                                                        className={`w-1.5 h-1.5 rounded-full ${expense.user === 'you' ? 'bg-blue-500' : 'bg-orange-500'}`}
+                                                                        className={`w-1.5 h-1.5 rounded-full ${expense.user === 'MK' ? 'bg-blue-500' : 'bg-orange-500'}`}
                                                                         style={{opacity: isSelected || isToday ? '0.8' : '1'}}
                                                                     />
                                                                 ))}
@@ -935,12 +935,12 @@
                                                 <div key={expense.id} className="expense-card p-3 rounded-lg">
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center gap-3 flex-1">
-                                                            <div className={`w-3 h-3 rounded-full ${expense.user === 'you' ? 'bg-blue-500' : 'bg-orange-500'}`} />
+                                                            <div className={`w-3 h-3 rounded-full ${expense.user === 'MK' ? 'bg-blue-500' : 'bg-orange-500'}`} />
                                                             <div className="min-w-0 flex-1">
                                                                 <p className="text-sm font-medium text-gray-900 truncate">{expense.description}</p>
                                                                 <p className="text-xs text-gray-500">
                                                                     {expense.category.charAt(0).toUpperCase() + expense.category.slice(1)} • 
-                                                                    {expense.user === 'you' ? ' You' : ' Wife'}
+                                                                    {expense.user === 'MK' ? ' MK' : ' LEELA'}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -976,7 +976,7 @@
                                                 setShowAddForm(false);
                                                 setFormData({
                                                     date: getISTDate(selectedDate),
-                                                    user: 'you',
+                                                    user: 'MK',
                                                     category: 'vegetables',
                                                     amount: '',
                                                     description: ''
@@ -1006,8 +1006,8 @@
                                                 onChange={(e) => setFormData({...formData, user: e.target.value})}
                                                 className="form-input text-sm"
                                             >
-                                                <option value="you">You</option>
-                                                <option value="wife">Wife</option>
+                                                <option value="MK">MK</option>
+                                                <option value="LEELA">LEELA</option>
                                             </select>
                                         </div>
                                         
