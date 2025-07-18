@@ -22,12 +22,12 @@
         // ============ CONFIGURATION ============
         // REPLACE THESE WITH YOUR ACTUAL VALUES
         const CONFIG = {
-            API_KEY: 'AIzaSyAkkJVtClYgqclFLQvg-AA1_VtwYno4nNE',
-            CLIENT_ID: '935021762297-4tspjfdahkict4i9o7n4m50ncvh24ja4.apps.googleusercontent.com',
+            API_KEY: 'YOUR_API_KEY_HERE',
+            CLIENT_ID: 'YOUR_CLIENT_ID_HERE',
             SHEET_ID: '1cRApWbycKws9VoeddABzYw5rwlyXMRaMsFNfkvdPJf4',
             SHEET_RANGE: 'Sheet1!A:G',
             AUTHORIZED_USERS: [
-                'muthu10star@gmail.com',        // Replace with your email
+                'your-email@gmail.com',        // Replace with your email
                 'your-wife-email@gmail.com'    // Replace with your wife's email
             ]
         };
@@ -112,7 +112,7 @@
                             apiKey: CONFIG.API_KEY,
                             clientId: CONFIG.CLIENT_ID,
                             discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-                            scope: 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.metadata.readonly'
+                            scope: 'https://www.googleapis.com/auth/spreadsheets'
                         });
 
                         // Check if user is already signed in
@@ -195,14 +195,21 @@
             // Check if user has edit access to the sheet
             const checkSheetAccess = async () => {
                 try {
-                    const response = await gapi.client.drive.files.get({
-                        fileId: CONFIG.SHEET_ID,
-                        fields: 'permissions'
+                    // Instead of checking permissions, try to read the sheet
+                    // If user can read, they have access
+                    const response = await gapi.client.sheets.spreadsheets.values.get({
+                        spreadsheetId: CONFIG.SHEET_ID,
+                        range: 'Sheet1!A1:A1'
                     });
-                    return true; // If we can access the file, we have permissions
+                    return true; // If we can read, user has access
                 } catch (error) {
                     console.error('Sheet access check failed:', error);
-                    return false;
+                    // If it's a 403 error, user doesn't have access
+                    if (error.status === 403) {
+                        return false;
+                    }
+                    // For other errors, assume they have access and let them try
+                    return true;
                 }
             };
 
