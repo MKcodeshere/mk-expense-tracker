@@ -3,33 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Expense Tracker</title>
-    <meta http‑equiv="Content‑Security‑Policy" content="
-      default-src 'self' https:;
-      script-src  'self' 'unsafe-inline' 'unsafe-eval'
-                  https://unpkg.com
-                  https://cdn.tailwindcss.com
-                  https://apis.google.com
-                  https://accounts.google.com
-                  https://www.gstatic.com
-                  https://ssl.gstatic.com;
-      style-src   'self' 'unsafe-inline'
-                  https://fonts.googleapis.com
-                  https://cdn.tailwindcss.com;
-      font-src    'self' https://fonts.gstatic.com;
-      img-src     'self' data: https: blob:;
-      connect-src 'self'
-                  https://sheets.googleapis.com
-                  https://www.googleapis.com
-                  https://accounts.google.com;
-      frame-src   'self'
-                  https://accounts.google.com
-                  https://content-sheets.googleapis.com;
-    ">
+    <title>Secure Family Expense Tracker</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
     <style>
         .lucide { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; }
         .loading { animation: spin 1s linear infinite; }
@@ -38,63 +18,14 @@
 </head>
 <body>
     <div id="root"></div>
-    
-    <!-- Load Google APIs asynchronously -->
-    <script>
-        // Load Google API Script
-        function loadGoogleAPIs() {
-            return new Promise((resolve, reject) => {
-                // Load GAPI
-                const gapiScript = document.createElement('script');
-                gapiScript.src = 'https://apis.google.com/js/api.js';
-                gapiScript.onload = () => {
-                    // Load GSI (Google Sign-In)
-                    const gsiScript = document.createElement('script');
-                    gsiScript.src = 'https://accounts.google.com/gsi/client';
-                    gsiScript.onload = resolve;
-                    gsiScript.onerror = reject;
-                    document.head.appendChild(gsiScript);
-                };
-                gapiScript.onerror = reject;
-                document.head.appendChild(gapiScript);
-            });
-        }
-        
-        // Initialize when page loads
-        window.addEventListener('load', async () => {
-            try {
-                await loadGoogleAPIs();
-                // APIs are loaded, React component can now initialize
-                window.googleAPIsLoaded = true;
-                if (window.initializeApp) {
-                    window.initializeApp();
-                }
-            } catch (error) {
-                console.error('Failed to load Google APIs:', error);
-                // Show fallback message
-                document.getElementById('root').innerHTML = `
-                    <div style="padding: 20px; text-align: center; color: red;">
-                        <h2>Failed to load Google APIs</h2>
-                        <p>Please refresh the page and try again.</p>
-                        <button onclick="location.reload()" style="padding: 10px 20px; margin-top: 10px;">Refresh Page</button>
-                    </div>
-                `;
-            }
-        });
-    </script>
-
     <script type="text/babel">
         // ============ CONFIGURATION ============
-        // REPLACE THESE WITH YOUR ACTUAL VALUES
         const CONFIG = {
-            API_KEY: 'AIzaSyAkkJVtClYgqclFLQvg-AA1_VtwYno4nNE',
-            CLIENT_ID: '935021762297-4tspjfdahkict4i9o7n4m50ncvh24ja4.apps.googleusercontent.com',
-            SHEET_ID: '1cRApWbycKws9VoeddABzYw5rwlyXMRaMsFNfkvdPJf4',
-            SHEET_RANGE: 'Sheet1!A:G',
-            AUTHORIZED_USERS: [
-                'muthu10star@gmail.com',        // Replace with your email
-                'your-wife-email@gmail.com'    // Replace with your wife's email
-            ]
+            API_KEY: 'AIzaSyAkkJVtClYgqclFLQvg-AA1_VtwYno4nNE',                    // Replace with your API key
+            CLIENT_ID: '935021762297-4tspjfdahkict4i9o7n4m50ncvh24ja4.apps.googleusercontent.com',                // Replace with your OAuth client ID
+            SHEET_ID: '1cRApWbycKws9VoeddABzYw5rwlyXMRaMsFNfkvdPJf4',  // Same Google Sheet for both
+            EXPENSE_RANGE: 'Sheet1!A:G',                     // Main expense data range (Sheet1)
+            AUTH_RANGE: 'Sheet2!A:A'                         // Authorized users range (Sheet2, Column A)
         };
 
         const { useState, useEffect } = React;
@@ -115,7 +46,7 @@
             const [isAuthenticated, setIsAuthenticated] = useState(false);
             const [user, setUser] = useState(null);
             const [isLoading, setIsLoading] = useState(true);
-            const [hasSheetAccess, setHasSheetAccess] = useState(false);
+            const [authStatus, setAuthStatus] = useState('');
             const [expenses, setExpenses] = useState([]);
             const [isSync, setIsSync] = useState(false);
             const [syncStatus, setSyncStatus] = useState('');
@@ -165,24 +96,11 @@
                         // Check if configuration is set
                         if (CONFIG.API_KEY === 'YOUR_API_KEY_HERE' || CONFIG.CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
                             setIsLoading(false);
+                            setAuthStatus('Configuration required');
                             return;
                         }
 
-                        // Wait for Google APIs to load
-                        const waitForGoogleAPIs = () => {
-                            return new Promise((resolve) => {
-                                const checkAPIs = () => {
-                                    if (window.gapi && window.google) {
-                                        resolve();
-                                    } else {
-                                        setTimeout(checkAPIs, 100);
-                                    }
-                                };
-                                checkAPIs();
-                            });
-                        };
-
-                        await waitForGoogleAPIs();
+                        setAuthStatus('Loading Google APIs...');
 
                         // Initialize Google API
                         await new Promise((resolve) => {
@@ -193,42 +111,61 @@
                             apiKey: CONFIG.API_KEY,
                             clientId: CONFIG.CLIENT_ID,
                             discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-                            scope: 'https://www.googleapis.com/auth/spreadsheets'
+                            scope: 'https://www.googleapis.com/auth/spreadsheets.readonly https://www.googleapis.com/auth/userinfo.email'
                         });
+
+                        setAuthStatus('Google APIs loaded');
 
                         // Check if user is already signed in
                         const authInstance = gapi.auth2.getAuthInstance();
                         if (authInstance.isSignedIn.get()) {
-                            handleAuthSuccess(authInstance.currentUser.get());
+                            await handleAuthSuccess(authInstance.currentUser.get());
                         } else {
                             setIsLoading(false);
+                            setAuthStatus('Ready to sign in');
                         }
                     } catch (error) {
                         console.error('Error initializing Google APIs:', error);
+                        setAuthStatus('Failed to load Google APIs');
                         setIsLoading(false);
                     }
                 };
 
-                // Set up the initialize function for when APIs are loaded
-                window.initializeApp = initializeGoogleApis;
-                
-                // If APIs are already loaded, initialize immediately
-                if (window.googleAPIsLoaded) {
-                    initializeGoogleApis();
-                }
+                initializeGoogleApis();
             }, []);
+
+            // Check if user email is in authorized users sheet
+            const checkUserAuthorization = async (userEmail) => {
+                try {
+                    setAuthStatus('Checking authorization...');
+                    
+                    const response = await gapi.client.sheets.spreadsheets.values.get({
+                        spreadsheetId: CONFIG.SHEET_ID,
+                        range: CONFIG.AUTH_RANGE
+                    });
+
+                    const authorizedEmails = response.result.values || [];
+                    const emailList = authorizedEmails.flat().map(email => email.toLowerCase().trim());
+                    
+                    console.log('Authorized emails:', emailList);
+                    console.log('User email:', userEmail.toLowerCase());
+                    
+                    return emailList.includes(userEmail.toLowerCase());
+                } catch (error) {
+                    console.error('Error checking authorization:', error);
+                    if (error.status === 403) {
+                        setAuthStatus('Access denied: Cannot read authorization sheet');
+                    } else {
+                        setAuthStatus('Error checking authorization');
+                    }
+                    return false;
+                }
+            };
 
             // Handle authentication success
             const handleAuthSuccess = async (user) => {
                 const profile = user.getBasicProfile();
                 const email = profile.getEmail();
-                
-                console.log('=== DEBUG INFO ===');
-                console.log('User email from Google:', email);
-                console.log('Authorized users list:', CONFIG.AUTHORIZED_USERS);
-                console.log('Email is authorized:', CONFIG.AUTHORIZED_USERS.includes(email));
-                console.log('Email type:', typeof email);
-                console.log('First authorized email type:', typeof CONFIG.AUTHORIZED_USERS[0]);
                 
                 setUser({
                     name: profile.getName(),
@@ -236,26 +173,20 @@
                     picture: profile.getImageUrl()
                 });
 
-                // Check if user is authorized (with debugging)
-                const isAuthorized = CONFIG.AUTHORIZED_USERS.includes(email);
-                if (!isAuthorized) {
-                    // Show debug info in alert for troubleshooting
-                    alert(`Access denied! 
-                    
-Your email: ${email}
-Authorized emails: ${CONFIG.AUTHORIZED_USERS.join(', ')}
-Match found: ${isAuthorized}
+                setAuthStatus('Verifying access permissions...');
 
-Please check the AUTHORIZED_USERS configuration.`);
+                // Check if user is authorized via Google Sheet
+                const isAuthorized = await checkUserAuthorization(email);
+                
+                if (!isAuthorized) {
+                    setAuthStatus('Access denied: Your email is not in the authorized users list');
                     await signOut();
                     return;
                 }
 
-                // Skip sheet access check since email authorization is sufficient
-                // If user is in AUTHORIZED_USERS, they should have sheet access
                 setIsAuthenticated(true);
-                setHasSheetAccess(true);
                 setIsLoading(false);
+                setAuthStatus('Access granted');
                 
                 // Load expenses from Google Sheet
                 await loadExpensesFromSheet();
@@ -265,11 +196,13 @@ Please check the AUTHORIZED_USERS configuration.`);
             const signIn = async () => {
                 try {
                     setIsLoading(true);
+                    setAuthStatus('Signing in...');
                     const authInstance = gapi.auth2.getAuthInstance();
                     const user = await authInstance.signIn();
                     await handleAuthSuccess(user);
                 } catch (error) {
                     console.error('Sign in error:', error);
+                    setAuthStatus('Sign in failed');
                     setIsLoading(false);
                 }
             };
@@ -281,31 +214,10 @@ Please check the AUTHORIZED_USERS configuration.`);
                     await authInstance.signOut();
                     setIsAuthenticated(false);
                     setUser(null);
-                    setHasSheetAccess(false);
                     setExpenses([]);
+                    setAuthStatus('Signed out');
                 } catch (error) {
                     console.error('Sign out error:', error);
-                }
-            };
-
-            // Check if user has edit access to the sheet
-            const checkSheetAccess = async () => {
-                try {
-                    // Instead of checking permissions, try to read the sheet
-                    // If user can read, they have access
-                    const response = await gapi.client.sheets.spreadsheets.values.get({
-                        spreadsheetId: CONFIG.SHEET_ID,
-                        range: 'Sheet1!A1:A1'
-                    });
-                    return true; // If we can read, user has access
-                } catch (error) {
-                    console.error('Sheet access check failed:', error);
-                    // If it's a 403 error, user doesn't have access
-                    if (error.status === 403) {
-                        return false;
-                    }
-                    // For other errors, assume they have access and let them try
-                    return true;
                 }
             };
 
@@ -317,7 +229,7 @@ Please check the AUTHORIZED_USERS configuration.`);
                     
                     const response = await gapi.client.sheets.spreadsheets.values.get({
                         spreadsheetId: CONFIG.SHEET_ID,
-                        range: CONFIG.SHEET_RANGE
+                        range: CONFIG.EXPENSE_RANGE
                     });
 
                     const rows = response.result.values || [];
@@ -334,13 +246,13 @@ Please check the AUTHORIZED_USERS configuration.`);
                         })).filter(expense => expense.date && expense.amount > 0);
 
                         setExpenses(expenseData);
-                        setSyncStatus('✅ Synced with Google Sheets');
+                        setSyncStatus(`✅ Loaded ${expenseData.length} expenses`);
                     } else {
                         setSyncStatus('✅ Sheet is empty - ready to add expenses');
                     }
                 } catch (error) {
                     console.error('Error loading expenses:', error);
-                    setSyncStatus('❌ Sync failed - check permissions');
+                    setSyncStatus('❌ Failed to load expenses');
                 } finally {
                     setIsSync(false);
                 }
@@ -364,7 +276,7 @@ Please check the AUTHORIZED_USERS configuration.`);
 
                     await gapi.client.sheets.spreadsheets.values.append({
                         spreadsheetId: CONFIG.SHEET_ID,
-                        range: 'Sheet1!A:G',
+                        range: CONFIG.EXPENSE_RANGE,
                         valueInputOption: 'RAW',
                         resource: { values }
                     });
@@ -372,92 +284,7 @@ Please check the AUTHORIZED_USERS configuration.`);
                     setSyncStatus('✅ Saved to Google Sheets');
                 } catch (error) {
                     console.error('Error saving expense:', error);
-                    setSyncStatus('❌ Save failed');
-                } finally {
-                    setIsSync(false);
-                }
-            };
-
-            // Update expense in Google Sheet
-            const updateExpenseInSheet = async (updatedExpense) => {
-                try {
-                    setIsSync(true);
-                    setSyncStatus('Updating Google Sheets...');
-
-                    // First, get all data to find the row
-                    const response = await gapi.client.sheets.spreadsheets.values.get({
-                        spreadsheetId: CONFIG.SHEET_ID,
-                        range: CONFIG.SHEET_RANGE
-                    });
-
-                    const rows = response.result.values || [];
-                    const rowIndex = rows.findIndex(row => row[5] === updatedExpense.id.toString());
-
-                    if (rowIndex > 0) { // Skip header row
-                        const values = [[
-                            updatedExpense.date,
-                            updatedExpense.user,
-                            updatedExpense.category,
-                            updatedExpense.amount,
-                            updatedExpense.description,
-                            updatedExpense.id,
-                            updatedExpense.timestamp
-                        ]];
-
-                        await gapi.client.sheets.spreadsheets.values.update({
-                            spreadsheetId: CONFIG.SHEET_ID,
-                            range: `Sheet1!A${rowIndex + 1}:G${rowIndex + 1}`,
-                            valueInputOption: 'RAW',
-                            resource: { values }
-                        });
-
-                        setSyncStatus('✅ Updated in Google Sheets');
-                    }
-                } catch (error) {
-                    console.error('Error updating expense:', error);
-                    setSyncStatus('❌ Update failed');
-                } finally {
-                    setIsSync(false);
-                }
-            };
-
-            // Delete expense from Google Sheet
-            const deleteExpenseFromSheet = async (expenseId) => {
-                try {
-                    setIsSync(true);
-                    setSyncStatus('Deleting from Google Sheets...');
-
-                    // Get all data to find the row
-                    const response = await gapi.client.sheets.spreadsheets.values.get({
-                        spreadsheetId: CONFIG.SHEET_ID,
-                        range: CONFIG.SHEET_RANGE
-                    });
-
-                    const rows = response.result.values || [];
-                    const rowIndex = rows.findIndex(row => row[5] === expenseId.toString());
-
-                    if (rowIndex > 0) { // Skip header row
-                        await gapi.client.sheets.spreadsheets.batchUpdate({
-                            spreadsheetId: CONFIG.SHEET_ID,
-                            resource: {
-                                requests: [{
-                                    deleteDimension: {
-                                        range: {
-                                            sheetId: 0,
-                                            dimension: 'ROWS',
-                                            startIndex: rowIndex,
-                                            endIndex: rowIndex + 1
-                                        }
-                                    }
-                                }]
-                            }
-                        });
-
-                        setSyncStatus('✅ Deleted from Google Sheets');
-                    }
-                } catch (error) {
-                    console.error('Error deleting expense:', error);
-                    setSyncStatus('❌ Delete failed');
+                    setSyncStatus('❌ Save failed - you may not have write permissions');
                 } finally {
                     setIsSync(false);
                 }
@@ -490,42 +317,11 @@ Please check the AUTHORIZED_USERS configuration.`);
                 setShowAddForm(false);
             };
 
-            // Handle expense update
-            const handleUpdateExpense = async () => {
-                if (!formData.amount || !formData.description) return;
-                
-                const updatedExpense = {
-                    id: editingExpense,
-                    date: formData.date,
-                    user: formData.user,
-                    category: formData.category,
-                    amount: parseFloat(formData.amount),
-                    description: formData.description,
-                    timestamp: new Date().toISOString()
-                };
-                
-                setExpenses(expenses.map(expense => 
-                    expense.id === editingExpense ? updatedExpense : expense
-                ));
-                
-                await updateExpenseInSheet(updatedExpense);
-                
-                setEditingExpense(null);
-                setFormData({
-                    date: getISTDate(),
-                    user: 'you',
-                    category: 'vegetables',
-                    amount: '',
-                    description: ''
-                });
-                setShowAddForm(false);
-            };
-
             // Handle expense deletion
             const handleDeleteExpense = async (expenseId) => {
-                if (confirm('Are you sure you want to delete this expense?')) {
+                if (confirm('Are you sure you want to delete this expense?\n\nNote: This will only remove it from the app view. Manual deletion from Google Sheet may be required.')) {
                     setExpenses(expenses.filter(expense => expense.id !== expenseId));
-                    await deleteExpenseFromSheet(expenseId);
+                    setSyncStatus('⚠️ Deleted locally - please refresh to sync with sheet');
                 }
             };
 
@@ -572,19 +368,37 @@ Please check the AUTHORIZED_USERS configuration.`);
             if (CONFIG.API_KEY === 'YOUR_API_KEY_HERE' || CONFIG.CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
                 return (
                     <div className="min-h-screen bg-red-50 flex items-center justify-center p-4">
-                        <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
-                            <div className="text-red-500 mb-4">
-                                <Shield className="mx-auto mb-2" size={48} />
+                        <div className="bg-white rounded-lg shadow-xl p-8 max-w-lg w-full">
+                            <div className="text-red-500 mb-4 text-center">
+                                <Shield size={48} className="mx-auto mb-2" />
                             </div>
-                            <h1 className="text-2xl font-bold text-red-700 mb-4">Configuration Required</h1>
-                            <p className="text-gray-600 mb-6">
-                                Please replace the API_KEY and CLIENT_ID in the code with your actual Google Cloud credentials.
-                            </p>
-                            <div className="bg-gray-100 p-4 rounded-lg text-left text-sm">
-                                <p className="font-semibold">Update these values:</p>
-                                <p className="text-red-600">API_KEY: 'YOUR_API_KEY_HERE'</p>
-                                <p className="text-red-600">CLIENT_ID: 'YOUR_CLIENT_ID_HERE'</p>
-                                <p className="text-blue-600 mt-2">AUTHORIZED_USERS: ['your-email@gmail.com', 'wife-email@gmail.com']</p>
+                            <h1 className="text-2xl font-bold text-red-700 mb-4 text-center">Setup Required</h1>
+                            
+                            <div className="space-y-6">
+                                <div className="bg-yellow-50 p-4 rounded-lg">
+                                    <h3 className="font-semibold text-yellow-800 mb-2">📋 Step 1: Add Sheet2 for Authorization</h3>
+                                    <p className="text-sm text-yellow-700">
+                                        In your existing Google Sheet, create a new worksheet called "Sheet2". 
+                                        In column A, add your email and your wife's email (one per row).
+                                    </p>
+                                </div>
+                                
+                                <div className="bg-blue-50 p-4 rounded-lg">
+                                    <h3 className="font-semibold text-blue-800 mb-2">🔑 Step 2: Update Configuration</h3>
+                                    <div className="text-sm text-blue-700 space-y-1">
+                                        <p><strong>API_KEY:</strong> Your Google Cloud API key</p>
+                                        <p><strong>CLIENT_ID:</strong> Your OAuth 2.0 client ID</p>
+                                        <p><strong>SHEET_ID:</strong> Already set to your expense sheet</p>
+                                    </div>
+                                </div>
+                                
+                                <div className="bg-green-50 p-4 rounded-lg">
+                                    <h3 className="font-semibold text-green-800 mb-2">🔒 Step 3: Sheet Structure</h3>
+                                    <p className="text-sm text-green-700">
+                                        <strong>Sheet1:</strong> Your expense data (Date, User, Category, Amount, Description, ID, Timestamp)<br/>
+                                        <strong>Sheet2:</strong> Authorization emails in column A
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -597,7 +411,8 @@ Please check the AUTHORIZED_USERS configuration.`);
                     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
                         <div className="text-center">
                             <LoadingSpinner size={48} className="mx-auto mb-4 text-blue-500" />
-                            <p className="text-gray-600">Loading secure expense tracker...</p>
+                            <p className="text-gray-600 mb-2">Secure Family Expense Tracker</p>
+                            <p className="text-sm text-gray-500">{authStatus}</p>
                         </div>
                     </div>
                 );
@@ -609,18 +424,28 @@ Please check the AUTHORIZED_USERS configuration.`);
                     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
                         <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
                             <div className="text-blue-500 mb-6">
-                                <Lock className="mx-auto mb-4" size={48} />
+                                <Shield size={48} className="mx-auto mb-4" />
                             </div>
-                            <h1 className="text-3xl font-bold text-gray-900 mb-2">Secure Access</h1>
+                            <h1 className="text-3xl font-bold text-gray-900 mb-2">Family Access Only</h1>
                             <p className="text-gray-600 mb-6">
-                                Sign in with Google to access your shared expense tracker
+                                Sign in with Google to access your private family expense tracker
                             </p>
+                            
                             <div className="bg-blue-50 p-4 rounded-lg mb-6">
-                                <Shield className="mx-auto mb-2 text-blue-500" size={24} />
+                                <Lock className="mx-auto mb-2 text-blue-500" size={24} />
                                 <p className="text-sm text-blue-700">
-                                    Only authorized users can access this expense tracker
+                                    🔒 Only authorized family members can access this app<br/>
+                                    📊 Your data is private and secured with Google Sheets<br/>
+                                    ✅ Email verification through private authorization list
                                 </p>
                             </div>
+                            
+                            {authStatus && (
+                                <div className="mb-4 p-3 bg-gray-100 rounded-lg">
+                                    <p className="text-sm text-gray-600">{authStatus}</p>
+                                </div>
+                            )}
+                            
                             <button
                                 onClick={signIn}
                                 className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
@@ -638,7 +463,7 @@ Please check the AUTHORIZED_USERS configuration.`);
                 );
             }
 
-            // Main app interface (same as before, but with sync status)
+            // Main app interface
             return (
                 <div className="min-h-screen bg-gray-100 p-4">
                     <div className="max-w-6xl mx-auto">
@@ -653,7 +478,7 @@ Please check the AUTHORIZED_USERS configuration.`);
                                     />
                                     <div>
                                         <h2 className="font-semibold text-gray-900">{user.name}</h2>
-                                        <p className="text-sm text-gray-500">{user.email}</p>
+                                        <p className="text-sm text-gray-500">✅ Authorized Family Member</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">
@@ -684,13 +509,12 @@ Please check the AUTHORIZED_USERS configuration.`);
                             </div>
                         </div>
 
-                        {/* Rest of the app interface - summary cards, calendar, etc. */}
                         <div className="text-center mb-8">
                             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                                🔐 Secure Expense Tracker
+                                🔐 Private Family Expense Tracker
                             </h1>
                             <p className="text-gray-600">
-                                Synced with Google Sheets • Private & Secure
+                                Secured with Google Sheets • Family Members Only
                             </p>
                         </div>
 
@@ -870,23 +694,6 @@ Please check the AUTHORIZED_USERS configuration.`);
                                                             ₹{expense.amount.toFixed(2)}
                                                         </span>
                                                         <button
-                                                            onClick={() => {
-                                                                setEditingExpense(expense.id);
-                                                                setFormData({
-                                                                    date: expense.date,
-                                                                    user: expense.user,
-                                                                    category: expense.category,
-                                                                    amount: expense.amount.toString(),
-                                                                    description: expense.description
-                                                                });
-                                                                setShowAddForm(true);
-                                                            }}
-                                                            disabled={isSync}
-                                                            className="text-blue-500 hover:text-blue-700 p-1 disabled:opacity-50"
-                                                        >
-                                                            <Edit3 />
-                                                        </button>
-                                                        <button
                                                             onClick={() => handleDeleteExpense(expense.id)}
                                                             disabled={isSync}
                                                             className="text-red-500 hover:text-red-700 p-1 disabled:opacity-50"
@@ -902,18 +709,15 @@ Please check the AUTHORIZED_USERS configuration.`);
                             </div>
                         </div>
 
-                        {/* Add/Edit Expense Form */}
+                        {/* Add Expense Form */}
                         {showAddForm && (
                             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                                 <div className="bg-white rounded-lg p-6 w-full max-w-md">
                                     <div className="flex justify-between items-center mb-4">
-                                        <h3 className="text-lg font-semibold">
-                                            {editingExpense ? 'Edit Expense' : 'Add New Expense'}
-                                        </h3>
+                                        <h3 className="text-lg font-semibold">Add New Expense</h3>
                                         <button
                                             onClick={() => {
                                                 setShowAddForm(false);
-                                                setEditingExpense(null);
                                                 setFormData({
                                                     date: getISTDate(),
                                                     user: 'you',
@@ -992,11 +796,11 @@ Please check the AUTHORIZED_USERS configuration.`);
                                     
                                     <div className="flex gap-3 mt-6">
                                         <button
-                                            onClick={editingExpense ? handleUpdateExpense : handleAddExpense}
+                                            onClick={handleAddExpense}
                                             disabled={!formData.amount || !formData.description || isSync}
                                             className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
                                         >
-                                            {isSync ? 'Syncing...' : (editingExpense ? 'Update' : 'Add')} Expense
+                                            {isSync ? 'Saving...' : 'Add Expense'}
                                         </button>
                                     </div>
                                 </div>
