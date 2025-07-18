@@ -20,7 +20,7 @@
         // ============ CONFIGURATION ============
         const CONFIG = {
             // Google Sheets Web App URL (you'll create this)
-            WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbw45ZkxMi8Sg1m85Qlgy9EfFoV8gjMdgWpSl5sFZTnnaR5WdBgxf0VAnbHWM8_s-dG1/exec',
+            WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbxtokqURa_q0AIBFOcUJFV65LQwZ7Qknr6uOPCjpWiElkVgMYykajnMotSKHq_OUDlR/exec',
             
             // Simple access codes for family members
             ACCESS_CODES: {
@@ -89,6 +89,14 @@
                 return new Date(now.getTime() + istOffset);
             }
 
+            // Initialize form with selected date
+            useEffect(() => {
+                setFormData(prev => ({
+                    ...prev,
+                    date: getISTDate(selectedDate)
+                }));
+            }, [selectedDate]);
+
             // Check authentication on load
             useEffect(() => {
                 const savedAuth = localStorage.getItem('expenseTrackerAuth');
@@ -128,15 +136,22 @@
             // Make API call to Google Apps Script Web App
             const callWebApp = async (action, data = {}) => {
                 try {
-                    const response = await fetch(CONFIG.WEB_APP_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            action: action,
-                            data: data
-                        })
+                    console.log('Calling Web App:', CONFIG.WEB_APP_URL);
+                    console.log('Action:', action);
+                    console.log('Data:', data);
+                    
+                    // Create URL with parameters for GET request
+                    const params = new URLSearchParams({
+                        action: action,
+                        data: JSON.stringify(data)
+                    });
+                    
+                    const url = `${CONFIG.WEB_APP_URL}?${params.toString()}`;
+                    console.log('Final URL:', url);
+                    
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        mode: 'cors'
                     });
 
                     if (!response.ok) {
@@ -144,6 +159,7 @@
                     }
 
                     const result = await response.json();
+                    console.log('Response result:', result);
                     
                     if (result.error) {
                         throw new Error(result.error);
@@ -182,6 +198,7 @@
                 } catch (error) {
                     console.error('Error loading expenses:', error);
                     setSyncStatus('❌ Failed to load expenses - check web app URL');
+                    alert('Failed to load expenses. Please check your web app configuration.');
                 }
             };
 
@@ -201,6 +218,12 @@
                     });
 
                     setSyncStatus('✅ Expense saved');
+                    
+                    // Reload expenses to verify it was added
+                    setTimeout(() => {
+                        loadExpensesFromSheet();
+                    }, 1000);
+                    
                 } catch (error) {
                     console.error('Error saving expense:', error);
                     setSyncStatus('❌ Save failed');
@@ -300,7 +323,7 @@
                                 <div className="bg-yellow-50 p-4 rounded-lg">
                                     <h3 className="font-semibold text-yellow-800 mb-2">📋 Step 1: Create Google Apps Script</h3>
                                     <div className="text-sm text-yellow-700 space-y-2">
-                                        <p>1. Go to <a href="https://script.google.com" target="_blank" className="underline">script.google.com</a></p>
+                                        <p>1. Go to <a href="https://script.google.com" target="_blank" rel="noopener noreferrer" className="underline">script.google.com</a></p>
                                         <p>2. Click "New Project"</p>
                                         <p>3. Replace the code with the provided Google Apps Script</p>
                                         <p>4. Update the SHEET_ID in the script</p>
@@ -537,7 +560,14 @@
                                         Expenses for {selectedDate.toLocaleDateString()}
                                     </h3>
                                     <button
-                                        onClick={() => setShowAddForm(true)}
+                                        onClick={() => {
+                                            setShowAddForm(true);
+                                            // Set the form date to the selected date when opening the form
+                                            setFormData(prev => ({
+                                                ...prev,
+                                                date: getISTDate(selectedDate)
+                                            }));
+                                        }}
                                         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 flex items-center gap-2"
                                     >
                                         <Plus />
