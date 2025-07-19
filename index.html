@@ -446,9 +446,15 @@
                 if (savedAuth && savedUser) {
                     setIsAuthenticated(true);
                     setCurrentUser(savedUser);
-                    loadExpensesFromSheet();
                 }
             }, []);
+
+              // 2) Whenever we flip into “authenticated”, fetch expenses exactly once
+              useEffect(() => {
+                if (isAuthenticated) {
+                  loadExpensesFromSheet();
+                }
+              }, [isAuthenticated]);
 
             // Authentication
             const handleLogin = () => {
@@ -458,7 +464,6 @@
                     setCurrentUser(CONFIG.ACCESS_CODES[trimmedCode]);
                     localStorage.setItem('expenseTrackerAuth', 'true');
                     localStorage.setItem('expenseTrackerUser', CONFIG.ACCESS_CODES[trimmedCode]);
-                    loadExpensesFromSheet();
                 } else {
                     alert('Invalid access code. Please check with family members for the correct code.');
                     setAccessCode('');
